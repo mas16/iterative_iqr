@@ -9,10 +9,11 @@ This script identifies outliers from a linear regression model using the interqu
 
 ## Conventional IQR Analysis
 
-The data are first modeled using linear regression. Differences between the observed and modeled are calculated and ranked by percentile.
+The data are first modeled using linear regression. Differences between the observed and modeled data are calculated and ranked by percentile.
 
 The IQR is defined as the difference between upper and lower quartiles (75th and 25th percentile, respectively)
-Outliers are defined as the foloowing:
+
+Outliers are defined as the following:
 
 * Data points below the 25th percentile - 1.5IQR
 * Data points above the 75th percentile + 1.5IQR
