@@ -26,7 +26,7 @@ If the script is run in iterative mode (it_flag='Y'), the IQR analysis is perfor
 * Remove outliers 
 * Determine new linear regression model for remaining data
 * Conventional IQR analysis to identify outliers
-* Iterated until no more outliers are identified
+* Iterate until no more outliers are identified
 
 ## Notes
 
