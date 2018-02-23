@@ -33,11 +33,10 @@
 datapath='C:/Users/matt/Documents/Scripts/Interquartile_Range/ellendata.txt'
 
 #Enter datapath to output folder
-outpath='C:/Users/matt/Documents/Scripts/Interquartile_Range/'
+outpath='C:/Users/matt/Desktop/github/iterative_iqr/example_output/'
 
 #Perform iteratively (Y or N)?
-it_flag='y'
-
+it_flag='n'
 
 ###################################################################
 #Import Libraries
@@ -178,17 +177,6 @@ def run(res,xval,yval):
     outlierids=outlier_id(outlierindex,res)
     return outlierids, fiteq
 
-#Perform statistical analysis with axes swapped
-def run_swap(res,xval,yval):
-    fit=linfit(yval,xval)
-    fiteq=linfiteq(fit)
-    predictedy=predyval(yval,xval,fiteq)
-    diffylist=gen_difflist(xval,predictedy)
-    outliers=find_outliers(diffylist)
-    outlierindex=outlier_index(diffylist,outliers)
-    outlierids=outlier_id(outlierindex,res)
-    return outlierids, fiteq
-
 #Remove outliers
 def remove_outliers(res,xval,yval,out):
     index=[]
@@ -248,15 +236,16 @@ def remove_duplicate(list1,list2):
 #Perform outlier identification
 def get_outliers(res,xval,yval):
     out1,eq=run(res,xval,yval)
-    out2,eq_s=run_swap(res,xval,yval)
+    #swap axes
+    out2,eq_s=run(res,yval,xval)
     out1,out2=remove_duplicate(out1,out2)
     out=out1+out2
     return out, eq, eq_s
 
 #Start Iterations
-def iterate(res,xval,yval):
+def iterate(res,xval,yval,opath):
     out,fiteq,fiteq_s=get_outliers(res,xval,yval)
-    plot(res,xval,yval,out,fiteq,fiteq_s)
+    plot(res,xval,yval,out,fiteq,fiteq_s,opath,'round1')
     c=0
     print '\noutliers in round ' + str(c+1) + ': '
     print out
@@ -264,13 +253,13 @@ def iterate(res,xval,yval):
         c+=1
         res,xval,yval=remove_outliers(res,xval,yval,out)
         out,fiteq,fiteq_s=get_outliers(res,xval,yval)
-        plot(res,xval,yval,out,fiteq,fiteq_s)
+        plot(res,xval,yval,out,fiteq,fiteq_s,opath,'round'+str(c+1))
         print '\noutliers in round ' + str(c+1) + ': '
         print out
     return res,xval,yval
 
 #Simple plotting function, show outliers in red
-def plot(res,xval,yval,out,eq,eq_s):
+def plot(res,xval,yval,out,eq,eq_s,opath,ext):
     plt.subplot(2,1,1)
     plt.plot(xval,yval,'ok')
     for x in range(len(out)):
@@ -298,7 +287,8 @@ def plot(res,xval,yval,out,eq,eq_s):
     plt.tick_params(width=2.0)
     plt.tick_params(axis='both',which='major',labelsize=16)
     plt.subplots_adjust(hspace=0.75)
-    plt.show()
+    plt.savefig(opath+ext+'.png')
+    plt.clf()
     return 0
 
 if __name__=='__main__':
@@ -307,8 +297,8 @@ if __name__=='__main__':
         outliers,fiteq,fiteq_s=get_outliers(RES,XVAL,YVAL)
         print 'outliers: '
         print outliers
-        plot(RES,XVAL,YVAL,outliers,fiteq,fiteq_s)
+        plot(RES,XVAL,YVAL,outliers,fiteq,fiteq_s,outpath,'conventional')
     elif it_flag in ['Y','Yes','y','YES']:
-        RES,XVAL,YVAL=iterate(RES,XVAL,YVAL)
+        RES,XVAL,YVAL=iterate(RES,XVAL,YVAL,outpath)
     else:
         print 'Please select a valid flag for performing iterative IQR: Y or N.'
