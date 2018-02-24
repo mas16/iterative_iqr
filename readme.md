@@ -15,8 +15,8 @@ The IQR is defined as the difference between upper and lower quartiles (75th and
 
 Outliers are defined as the following:
 
-* Data points below the 25th percentile - 1.5IQR
-* Data points above the 75th percentile + 1.5IQR
+* Difference between observed and modeled is below the 25th percentile - 1.5IQR
+* Difference between observed and modeled is above the 75th percentile + 1.5IQR
 
 ## Iterative IQR Analysis
 
