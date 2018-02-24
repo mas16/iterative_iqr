@@ -1,5 +1,8 @@
 # Iterative IQR
 
+by Matt Stetz
+03/2012
+
 ## Introduction
 
 This script identifies outliers from a linear regression model using the interquartile range method (IQR)
@@ -13,7 +16,6 @@ Versions of this script have been used in the following publications:
 
 * Fu Y et al JACS 2012 132(20) 8543-50
 * Stetz M et al JBNMR 2016 65(3-4) 157-70
-
 
 ## Conventional IQR Analysis
 
