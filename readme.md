@@ -7,6 +7,14 @@ This script identifies outliers from a linear regression model using the interqu
 * Conventional IQR analysis can be performed by setting the it_flag='N'
 * Iterative IQR analysis can be performed by setting the it_flag='Y'
 
+I wrote this script to automate analysis that was previously done using an Excel spreadsheet compiled by Dr. Yinan Fu
+
+Versions of this script has been used in the following publications:
+
+* Fu Y et al JACS 2012 132(20) 8543-50
+* Stetz et al JBNMR 2016 65(3-4) 157-70
+
+
 ## Conventional IQR Analysis
 
 The data are first modeled using linear regression. Differences between the observed and modeled data are calculated and ranked by percentile.
