@@ -9,7 +9,7 @@ This script identifies outliers from a linear regression model using the interqu
 
 I wrote this script to automate analysis that was previously done using an Excel spreadsheet compiled by Dr. Yinan Fu
 
-Versions of this script has been used in the following publications:
+Versions of this script have been used in the following publications:
 
 * Fu Y et al JACS 2012 132(20) 8543-50
 * Stetz et al JBNMR 2016 65(3-4) 157-70
