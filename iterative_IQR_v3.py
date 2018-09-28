@@ -165,7 +165,7 @@ def find_outliers(diffyval):
 
 #Get outlier list index
 def outlier_index(diffyval,outliers):
-    outlierindex_list = [np.where(diffyval==entry)[0][0] for entry in outliers]
+    outlierindex_list = [np.where(diffyval == entry)[0][0] for entry in outliers]
     return outlierindex_list
 
 #Get outlier ID using index
@@ -220,21 +220,21 @@ def plot(res,xval,yval,out,eq,eq_s,opath,ext):
     plt.plot(xval,yval,'ok')
     for x in range(len(out)):
         plt.plot(xval[res.index(out[x])],yval[res.index(out[x])],'or')
-    plt.plot(xval,eq(xval),'-k',linewidth=1.0)
-    plt.title('Fit eq: y ='+str(eq),fontsize=16)
-    plt.xlabel('Column 1 values',fontsize=16)
-    plt.ylabel('Column 2 values',fontsize=16)
-    plt.tick_params(direction='out',top="off",right="off",width=2.0,axis='both',which='major',labelsize=16)
+    plt.plot(xval,eq(xval),'-k',linewidth = 1.0)
+    plt.title('Fit eq: y ='+str(eq),fontsize = 16)
+    plt.xlabel('Column 1 values',fontsize = 16)
+    plt.ylabel('Column 2 values',fontsize = 16)
+    plt.tick_params(direction = 'out',top = "off",right = "off",width = 2.0,axis = 'both',which = 'major',labelsize = 16)
     plt.subplot(2,1,2)
     plt.plot(yval,xval,'ok')
     for x in range(len(out)):
         plt.plot(yval[res.index(out[x])],xval[res.index(out[x])],'or')
-    plt.plot(yval,eq_s(yval),'-k',linewidth=1.0)
-    plt.title('Fit eq: y ='+str(eq_s),fontsize=16)
-    plt.xlabel('Column 2 values',fontsize=16)
-    plt.ylabel('Column 1 values',fontsize=16)
-    plt.tick_params(direction='out',top="off",right="off",width=2.0,axis='both',which='major',labelsize=16)
-    plt.subplots_adjust(hspace=0.75)
+    plt.plot(yval,eq_s(yval),'-k',linewidth = 1.0)
+    plt.title('Fit eq: y ='+str(eq_s),fontsize = 16)
+    plt.xlabel('Column 2 values',fontsize = 16)
+    plt.ylabel('Column 1 values',fontsize = 16)
+    plt.tick_params(direction = 'out',top = "off",right = "off",width = 2.0,axis = 'both',which = 'major',labelsize = 16)
+    plt.subplots_adjust(hspace = 0.75)
     plt.tight_layout()
     plt.savefig(opath+ext+'.png')
     plt.clf()
@@ -248,7 +248,7 @@ def iterate(res,xval,yval,opath):
     print '\noutliers in round ' + str(c+1) + ': '
     print out
     while len(out) != 0:
-        c+=1
+        c += 1
         res,xval,yval = remove_outliers(res,xval,yval,out)
         out,fiteq,fiteq_s = get_outliers(res,xval,yval)
         plot(res,xval,yval,out,fiteq,fiteq_s,opath,'round'+str(c+1))
@@ -264,7 +264,7 @@ def main(datapath,outpath,it_flag):
         print outliers
         plot(res,xval,yval,outliers,fiteq,fiteq_s,outpath,'conventional')
     elif it_flag in ['Y','Yes','y','YES']:
-        res,xvalL,yval=iterate(res,xval,yval,outpath)
+        res,xvalL,yval = iterate(res,xval,yval,outpath)
     else:
         print 'Please select a valid flag for performing iterative IQR: Y or N.'
         sys.exit()
