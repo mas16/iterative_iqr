@@ -55,13 +55,13 @@ plt.rcParams['axes.linewidth'] = 2.0
 #User input below:
 
 #Enter datapath to file (include .txt extension)
-DATAPATH='C:/Users/yao/Desktop/Matt/IQR/ellendata.txt'
+DATAPATH = 'C:/Users/yao/Desktop/Matt/IQR/ellendata.txt'
 
 #Enter datapath to output folder
-OUTPATH='C:/Users/yao/Desktop/Matt/IQR/'
+OUTPATH = 'C:/Users/yao/Desktop/Matt/IQR/'
 
 #Perform iteratively (Y or N)?
-IT_FLAG='y'
+IT_FLAG = 'y'
 
 ###################################################################
 #Functions
