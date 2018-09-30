@@ -47,8 +47,8 @@ import sys
 #So that figures can be exported as .eps
 #for editing in adobe illustrator 
 
-plt.rcParams['ps.fonttype']=42
-plt.rcParams['ps.useafm']=True
+plt.rcParams['ps.fonttype'] = 42
+plt.rcParams['ps.useafm'] = True
 plt.rcParams['axes.linewidth'] = 2.0
 
 ###################################################################
