@@ -270,5 +270,5 @@ def main(datapath,outpath,it_flag):
         sys.exit()
     return 0
     
-if __name__=='__main__':
+if __name__ == '__main__':
     main(DATAPATH,OUTPATH,IT_FLAG)
