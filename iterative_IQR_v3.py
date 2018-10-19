@@ -93,7 +93,7 @@ def linfit(xval,yval):
 #Linear regression model expression 
 def linfit_eq(fit):
     eq = np.poly1d(fit)
-    print "\nfit equation: " + str(eq)
+    print ("\nfit equation: " + str(eq))
     return eq
 
 #Generate predicted y-values from regression model
@@ -107,7 +107,7 @@ def gen_difflist(yval,predictedyval):
         diff = [predictedyval[index]-yval[index] for index in range(len(yval))]
         return diff
     else:
-        print "Error: data size mismatch"
+        print ("Error: data size mismatch")
         sys.exit()
 
 #Find outliers by IQR
@@ -147,15 +147,15 @@ def find_outliers(diffyval):
     iqr  = qrt3-qrt1
     iqrs = 1.5*float(iqr)
 
-    print "\nqrt 1: " + str(qrt1)
-    print "\nqrt 3: " + str(qrt3)
-    print "\ninterquartile range: " + str(iqr)
+    print ("\nqrt 1: " + str(qrt1))
+    print ("\nqrt 3: " + str(qrt3))
+    print ("\ninterquartile range: " + str(iqr))
 
     outlier_list = []
 
-    print "\nlower cut off:"
+    print ("\nlower cut off:")
     print float(qrt1-iqrs)
-    print "\nupper cut off:"
+    print ("\nupper cut off:")
     print float(qrt3+iqrs)
 
     for val in diffyval:
@@ -176,7 +176,7 @@ def outlier_id(outlier_index_list,res_list):
 #Perform statistical analysis
 def run(res,xval,yval):
     fit = linfit(xval,yval)
-    print "\nr^2: " + str(np.round((sci.pearsonr(xval,yval)[0])**2,3))
+    print ("\nr^2: " + str(np.round((sci.pearsonr(xval,yval)[0])**2,3)))
     fiteq = linfit_eq(fit)
     predictedy = pred_yval(xval,fiteq)
     diffylist = gen_difflist(yval,predictedy)
@@ -245,23 +245,26 @@ def iterate(res,xval,yval,opath):
     out,fiteq,fiteq_s = get_outliers(res,xval,yval)
     plot(res,xval,yval,out,fiteq,fiteq_s,opath,'round1')
     c = 0
-    print '\noutliers in round ' + str(c+1) + ': '
-    print out
+    print ('\noutliers in round ' + str(c+1) + ': ')
+    print (out)
+    
+    #i prefer to use a while loop
+    #here because a condition must be met to stop iteration
     while len(out) != 0:
         c += 1
         res,xval,yval = remove_outliers(res,xval,yval,out)
         out,fiteq,fiteq_s = get_outliers(res,xval,yval)
         plot(res,xval,yval,out,fiteq,fiteq_s,opath,'round'+str(c+1))
-        print '\noutliers in round ' + str(c+1) + ': '
-        print out
+        print ('\noutliers in round ' + str(c+1) + ': ')
+        print (out)
     return res,xval,yval
 
 def main(datapath,outpath,it_flag):
     res,xval,yval = parse_data(split_data(read_file(datapath)))
     if it_flag in ['N','No','n','NO']:
         outliers,fiteq,fiteq_s = get_outliers(res,xval,yval)
-        print 'outliers: '
-        print outliers
+        print ('outliers: ')
+        print (outliers)
         plot(res,xval,yval,outliers,fiteq,fiteq_s,outpath,'conventional')
     elif it_flag in ['Y','Yes','y','YES']:
         res,xvalL,yval = iterate(res,xval,yval,outpath)
