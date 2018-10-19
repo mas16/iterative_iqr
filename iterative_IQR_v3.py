@@ -135,7 +135,7 @@ def find_outliers(diffyval):
     ucosf = uco-float(int(uco/1))
 
     if lcosf == 0:
-        print lco-1
+        print (lco-1)
         qrt1 = sortedyval[lco-1]
     else:
         qrt1 = sortedyval[lco1]+(lcosf*disl)
@@ -154,9 +154,9 @@ def find_outliers(diffyval):
     outlier_list = []
 
     print ("\nlower cut off:")
-    print float(qrt1-iqrs)
+    print (float(qrt1-iqrs))
     print ("\nupper cut off:")
-    print float(qrt3+iqrs)
+    print (float(qrt3+iqrs))
 
     for val in diffyval:
         if val <= float(qrt1-iqrs) or val >= float(qrt3+iqrs):
