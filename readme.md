@@ -49,3 +49,15 @@ Data should be in a tab delimited text file with three columns:
 * Column 1: Data Identifier/Name
 * Column 2: X Values
 * Column 3: Y Values
+
+## Example Output
+
+Some example plots are shown in the "example_output" directory
+
+* Below is an example plot of traditional IQR outlier identification. Outliers are shown in red
+
+![](./example_output/conventional.png)
+
+* Below is an example plot of the same data shown above but after 5 rounds of iterative filtering of outliers
+
+![](./example_output/round5.png)
