@@ -52,7 +52,9 @@ Data should be in a tab delimited text file with three columns:
 
 ## Example Output
 
-Some example plots are shown in the "example_output" directory
+Test data is provided as 'ellendata.txt'
+
+Some example plots generated after running the script on ellendata.txt are shown in the "example_output" directory
 
 * Below is an example plot of traditional IQR outlier identification. Outliers are shown in red
 
