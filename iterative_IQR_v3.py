@@ -1,40 +1,45 @@
-'''
-Script for calculating Interquartile Range (IQR)
-For Linear Regression
+"""
+Script for calculating Interquartile Range (IQR) for
+Identification of Outliers in Linear Regression Model.
 
-Points with IQR >= 1.5 are eliminated
+Points with IQR >= 1.5 are eliminated.
+
 Script follows Microsoft Excel Spreadsheet made by Dr. Yinan Fu
 See Ref: Fu Y et al JACS 2012 134(20) 8543-50
 
 Data should be in delimited text file with:
-Residue ID in the first column,
-The first variable in the second column,
+Residue ID in the first column
+The first variable in the second column
 The second variable in the third column
+
+NOTE: You may have a problem running this script if your text
+file was generated on MacOS! We used Windows for this project.
 
 Version History:
 
 IQR.py by MAS 03/2012
-Basic IQR calculation and filtering of outliers
-For two parameter linear regression
+Basic IQR calculation and filtering of outliers.
+For two parameter linear regression.
 
-Data visualization is provided as .png file(s)
-Option to perform once or iteratively
-No assumptions are made about dependent or independent variables
-
-Both possibilities are considered
+Data visualization is provided as .png file(s).
+No assumptions are made about dependent or independent variables.
 
 IQR_update.py by MAS 03/31/2012
-Added iterative recalcuation of IQR after filtering of outliers
+Added iterative recalcuation of IQR after filtering of outliers.
 
 iterative_IQR_v1.py by MAS 02/21/2018
-Cleaned up code
+Cleaned up code.
 
 iterative_IQR_v2.py by MAS 08/2018
-streamlined code to be more pythonic
+Streamlined code to be more pythonic.
 
 iterative_IQR_v3.py by MAS 09/2018
-streamlined code to be more pythonic
-'''
+Streamlined code to be more pythonic.
+
+MAS 10/2018
+Added annotations.
+"""
+
 ###################################################################
 #Import Libraries
 from __future__ import division
@@ -43,10 +48,7 @@ import pylab as plt
 import scipy.stats as sci
 import sys
 
-#Set parameters for graphics
-#So that figures can be exported as .eps
-#for editing in adobe illustrator 
-
+#Set parameters for graphics so that figures can be edited in adobe
 plt.rcParams['ps.fonttype'] = 42
 plt.rcParams['ps.useafm'] = True
 plt.rcParams['axes.linewidth'] = 2.0
@@ -66,43 +68,43 @@ IT_FLAG = 'y'
 ###################################################################
 #Functions
 
-#Open .txt file, read it, and store data
 def read_file(datafile):
+    """Open txt file, read it, and store data."""
     data = file(datafile, "r")
     contents = data.readlines()
     data.close()
     return contents
 
-#Split data (this is for windows formatted .txt)
 def split_data(datafile):
+    """Split data (this is for windows formatted txt)."""
     split = [entry.split() for entry in datafile]
     return split
 
-#Separate data into different lists
 def parse_data(datafile):
+    """Separate data into different lists."""
     resname = [entry[0] for entry in datafile]
     var_1 = [float(entry[1]) for entry in datafile]
     var_2 = [float(entry[2]) for entry in datafile]
     return resname, var_1, var_2
 
-#Linear regression model of data
 def linfit(xval, yval):
+    """Linear regression model of data."""
     z = np.polyfit(xval, yval, 1)
     return z
-
-#Linear regression model expression 
+ 
 def linfit_eq(fit):
+    """Linear regression model equation."""
     eq = np.poly1d(fit)
     print ("\nfit equation: " + str(eq))
     return eq
 
-#Generate predicted y-values from regression model
 def pred_yval(xval, eq):
+    """Generate predicted y-values from regression model."""
     pred_y = [eq(entry) for entry in xval]
     return pred_y
 
-#Calculate difference between observed and predicted values
 def gen_difflist(yval, predictedyval):
+    """Calculate difference between observed and predicted values."""
     if len(yval) == len(predictedyval):
         diff = [predictedyval[x]-yval[x] for x in range(len(yval))]
         return diff
@@ -110,12 +112,10 @@ def gen_difflist(yval, predictedyval):
         print ("Error: data size mismatch")
         sys.exit()
 
-#Find outliers by IQR
 def find_outliers(diffyval):
-
+    """Find outliers by IQR."""
     #Sort list of differences
     sortedyval = np.sort(diffyval)
-    
     lenlist = float(len(sortedyval))
 
     #Get quartile position index
@@ -163,18 +163,18 @@ def find_outliers(diffyval):
             outlier_list.append(val)
     return outlier_list        
 
-#Get outlier list index
 def outlier_index(diffyval, outliers):
+    """Get outlier list indices."""
     outindex_list = [np.where(diffyval == entry)[0][0] for entry in outliers]
     return outindex_list
 
-#Get outlier ID using index
 def outlier_id(outlier_index_list, res_list):
+    """Get outlier ID using index."""
     outlier_res_list = [res_list[entry] for entry in outlier_index_list]    
     return outlier_res_list
 
-#Perform statistical analysis
 def run(res, xval, yval):
+    """Perform statistical analysis."""
     fit = linfit(xval, yval)
     print ("\nr^2: " + str(np.round((sci.pearsonr(xval, yval)[0])**2, 3)))
     fiteq = linfit_eq(fit)
@@ -185,8 +185,8 @@ def run(res, xval, yval):
     outlierids = outlier_id(outlierindex, res)
     return outlierids, fiteq
 
-#Remove outliers
 def remove_outliers(res, xval, yval, out):
+    """Remove outliers."""
     index_list = [res.index(entry) for entry in out]
     f_res = []
     f_xval = []
@@ -198,8 +198,12 @@ def remove_outliers(res, xval, yval, out):
             f_yval.append(yval[index])
     return f_res, f_xval, f_yval
 
-#Remove duplicates
 def remove_duplicate(list1, list2):
+    """Remove duplicate outliers.
+
+    This has to be done because outliers are determined
+    separately regardless of choice of x and y variables.
+    """
     if len(list1) > len(list2):
         list1_trim = [entry for entry in list1 if entry not in list2]
         return list1_trim, list2
@@ -207,24 +211,21 @@ def remove_duplicate(list1, list2):
         list2_trim = [entry for entry in list2 if entry not in list1]
         return list1, list2_trim
 
-#Perform outlier identification
 def get_outliers(res, xval, yval):
-    out1,eq = run(res, xval, yval)
-    #swap axes
-    out2,eq_s = run(res, yval, xval)
-    out1,out2 = remove_duplicate(out1, out2)
+    """Perform outlier identification."""
+    out1, eq = run(res, xval, yval)
+    #Swap axes
+    out2, eq_s = run(res, yval, xval)
+    out1, out2 = remove_duplicate(out1, out2)
     out = out1 + out2
     return out, eq, eq_s
 
-#Simple plotting function, show outliers in red
 def plot(res, xval, yval, out, eq, eq_s, opath, ext):
-
+    """Simple plotting function, show outliers in red."""
     plt.subplot(2, 1, 1)
     plt.plot(xval, yval, 'ok')
-
     for x in range(len(out)):
         plt.plot(xval[res.index(out[x])], yval[res.index(out[x])], 'or')
-
     plt.plot(xval, eq(xval), '-k', linewidth=1.0)
     plt.title('Fit eq: y ='+str(eq), fontsize=16)
     plt.xlabel('Column 1 values', fontsize=16)
@@ -233,10 +234,8 @@ def plot(res, xval, yval, out, eq, eq_s, opath, ext):
                     axis='both', which ='major', labelsize=16)
     plt.subplot(2, 1, 2)
     plt.plot(yval, xval, 'ok')
-
     for x in range(len(out)):
         plt.plot(yval[res.index(out[x])],xval[res.index(out[x])], 'or')
-
     plt.plot(yval,eq_s(yval),'-k',linewidth=1.0)
     plt.title('Fit eq: y ='+str(eq_s),fontsize=16)
     plt.xlabel('Column 2 values',fontsize=16)
@@ -249,14 +248,13 @@ def plot(res, xval, yval, out, eq, eq_s, opath, ext):
     plt.clf()
     return 0
 
-#Start Iterations
 def iterate(res, xval, yval, opath):
+    """Start iterative IQR analysis."""
     out, fiteq, fiteq_s = get_outliers(res, xval, yval)
     plot(res, xval, yval, out, fiteq, fiteq_s, opath, 'round1')
     c = 0
     print ('\noutliers in round ' + str(c+1) + ': ')
     print (out)
-    
     #I prefer to use a while loop
     #here because an unpredictable condition must be met to stop iteration
     while len(out) != 0:
@@ -269,12 +267,15 @@ def iterate(res, xval, yval, opath):
     return res, xval, yval
 
 def main(datapath, outpath, it_flag):
+    """Execute everything."""
     res, xval, yval = parse_data(split_data(read_file(datapath)))
+    #Check for some common ways a user could type "no"
     if it_flag in ['N','No','n','NO']:
         outliers, fiteq, fiteq_s = get_outliers(res, xval, yval)
         print ('outliers: ')
         print (outliers)
         plot(res, xval, yval, outliers, fiteq, fiteq_s, outpath, 'conventional')
+    #Check for some common ways a user could type "yes"
     elif it_flag in ['Y','Yes','y','YES']:
         res, xval, yval = iterate(res, xval, yval, outpath)
     else:
