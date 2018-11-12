@@ -1,6 +1,6 @@
 # Iterative IQR
 
-by Matt Stetz
+by MAS
 03/2012
 
 ## Introduction
