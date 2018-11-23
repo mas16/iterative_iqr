@@ -266,7 +266,7 @@ def iterate(res, xval, yval, opath):
         print (out)
     return res, xval, yval
 
-def main(datapath, outpath, it_flag):
+def run(datapath, outpath, it_flag):
     """Execute everything."""
     res, xval, yval = parse_data(split_data(read_file(datapath)))
     #Check for some common ways a user could type "no"
@@ -282,6 +282,9 @@ def main(datapath, outpath, it_flag):
         print 'Please select a valid flag for iterative IQR: Y or N.'
         sys.exit()
     return 0
+
+def main():
+    run(DATAPATH, OUTPATH, IT_FLAG)
     
 if __name__ == '__main__':
-    main(DATAPATH, OUTPATH, IT_FLAG)
+    main()
