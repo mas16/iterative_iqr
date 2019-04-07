@@ -7,8 +7,19 @@ by MAS
 
 This script identifies outliers from a linear regression model using the interquartile range method (IQR)
 
-* Conventional IQR analysis can be performed by setting the it_flag='N'
-* Iterative IQR analysis can be performed by setting the it_flag='Y'
+Users have the option to:
+
+* Perform conventional IQR analysis
+
+* Perform conventional IQR analysis with swapped axes
+
+* Perform IQR iteratively until no more outliers are identified
+
+* Perform IQR iteratively with swapped axes
+
+To swap axes, set ```SWAP_FLAG``` = 'y', otherwise ```SWAP_FLAG``` = 'n'
+
+To iterate, set ```IT_FLAG``` = 'y', otherwise ```IT_FLAG``` = 'n'
 
 I wrote this script to automate analysis that was previously done using an Excel spreadsheet compiled by Dr. Yinan Fu
 
@@ -28,20 +39,19 @@ Outliers are defined as the following:
 * Difference between observed and modeled is below the 25th percentile - 1.5IQR
 * Difference between observed and modeled is above the 75th percentile + 1.5IQR
 
+## Swap Axes
+
+The analysis is performed as described above, then the analysis is performed again but the dependent and independent variables are swapped.
+
 ## Iterative IQR Analysis
 
-If the script is run in iterative mode (it_flag='Y'), the IQR analysis is performed as follows:
+If the script is run in iterative mode (IT_FLAG = 'y'), the IQR analysis is performed as follows:
 
 * Conventional IQR analysis to identify outliers
 * Remove outliers 
 * Determine new linear regression model for remaining data
 * Conventional IQR analysis to identify outliers
 * Iterate until no more outliers are identified
-
-## Notes
-
-* No assumptions are are made about dependent or independent variable designations
-* IQR analysis is performed for both possibilities
 
 ## Input Data Format
 
@@ -52,14 +62,35 @@ Data should be in a tab delimited text file with three columns:
 
 ## Example Output
 
-Test data is provided as 'ellendata.txt'
+Test data is provided as ```test.txt```
 
-Some example plots generated after running the script on ellendata.txt are shown in the "example_output" directory
+A text file called ```summary.txt``` is generated which lists the quartile values and the outliers removed.
 
-* Below is an example plot of traditional IQR outlier identification. Outliers are shown in red
+Plots are also generated as ```.png``` files with outliers shown in red.
 
-![](./example_output/conventional.png)
+Some example plots generated after running the script on ```test.txt``` are shown in the "example_output" directory
 
-* Below is an example plot of the same data shown above but after 5 rounds of iterative filtering of outliers
+* Below is an example plot of traditional IQR outlier identification with ```SWP_FLAG = 'y'```
 
-![](./example_output/round5.png)
+![](./example_output/Swap_NoIter/swap_round1.png)
+
+* Below is an example plot of IQR analysis performd with ```SWAP_FLAG = 'y'``` and ```IT_FLAG = 'y'```
+
+Round 1:   
+
+![](./example_output/Swap_Iter/swap_round1.png)
+
+Round 2:  
+
+![](./example_output/Swap_Iter/swap_round2.png)
+
+Round 3:  
+
+![](./example_output/Swap_Iter/swap_round3.png)
+
+Round 4:  
+
+![](./example_output/Swap_Iter/swap_round4.png)
+
+Round 5:  
+![](./example_output/Swap_Iter/swap_round5.png)

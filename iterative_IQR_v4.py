@@ -11,7 +11,7 @@ The user has the option to determine outliers using the conventional approach
 or an approach where the axes are swapped.
 
 The user also has the option to iterate the procedure repeatedly wherein with
-each iteration the outliers are removed and then the data are re-fit.
+each iteration, the outliers are removed and then the data are re-fit.
 
 Parameters
 ----------------
@@ -52,10 +52,10 @@ __date__ = "4 March 2019"
 # User-Defined information below
 
 # Name of data file
-DATAFILE = "ellendata.txt"
+DATAFILE = "test.txt"
 
 # Swap x and y Axes during outlier analysis (y/n)?
-SWAP_FLAG = "y"
+SWAP_FLAG = "n"
 
 # Perform iteratively? (y/n)
 IT_FLAG = "n"
@@ -230,7 +230,6 @@ def plot_one(outliers, model, data, counter):
         index = np.where(data["name"] == outlier)[0][0]
         plt.plot(data["xval"][index], data["yval"][index], "or", markersize=6)
     plt.tick_params(width=2, labelsize=14)
-    plt.axis([0, 0.6, 0, 0.6])
     plt.xlabel("Independent Variables", fontsize=14)
     plt.ylabel("Dependent Variables", fontsize=14)
     sns.despine()
@@ -365,19 +364,25 @@ def run(swap_flag=SWAP_FLAG, it_flag=IT_FLAG):
         f.write("{:<6} {:<15} {:<15} {:<9} {:<6}"
                 .format("ROUND", "1st QUARTILE", "3rd QUARTILE", "IQR",
                         "OUTLIERS"))
+
     # Check flags to make sure they are compatible with "y" or "n"
     swap_flag = check_flags(swap_flag)
     it_flag = check_flags(it_flag)
+
     # Read data from input file
     all_data = read_file()
+
     # Make structured array
     # Note all_data.shape will be (n,) but operations are still vectorized
     all_data = np.array(all_data, dtype=[("name", "U10"), ("xval", float),
                                          ("yval", float)])
+
     # Start counter to keep track of IQR iterations (start at 1)
     counter = 1
+
     # Run first IQR calculation
     outliers, data = run_analysis(all_data, counter, swap_flag)
+
     # Check if the user wants to repeat the IQR calculation iteratively
     if it_flag == 'y':
         iterate_analysis(outliers, data, swap_flag, counter)

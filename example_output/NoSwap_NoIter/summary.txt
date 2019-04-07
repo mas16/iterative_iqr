@@ -1,0 +1,2 @@
+ROUND  1st QUARTILE    3rd QUARTILE    IQR       OUTLIERS
+1      -0.0396         0.0461          0.0857    ['8H-N']
