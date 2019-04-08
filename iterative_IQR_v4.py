@@ -27,8 +27,8 @@ Data is structured as a numpy structured array.
 Plots of the data with outliers in red and linear models as dashed lines are
 saved to the working directory.
 
-A text file listing the quartiles, IQR, and outliers is also saved to the working
-directory.
+A text file listing the quartiles, IQR, and outliers is also saved to the
+working directory.
 
 by mas march 2019
 """
